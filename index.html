@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edén & Julieta — Nuestra Boda | 16 de Enero de 2027</title>
+  <meta name="description" content="Nos casamos. Acompaña a Edén y Julieta en la celebración de su matrimonio el 16 de Enero de 2027 en Rodeo, Durango. Consulta el itinerario, ubicaciones y confirma tu asistencia.">
+  
+  <!-- Open Graph / Redes Sociales & WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Boda de Edén & Julieta — 16 de Enero de 2027">
+  <meta property="og:description" content="Tenemos el honor de invitarte a celebrar nuestra unión matrimonial. ¡Confirma tu asistencia y acompáñanos en este gran día!">
+  <meta property="og:image" content="assets/images/IMG-20261014-WA0008.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c5a059'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/></svg>">
+
+  <!-- Google Fonts & Estilos -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Lienzo de pétalos flotantes -->
+  <canvas id="petals-canvas" aria-hidden="true"></canvas>
+
+  <!-- Controles flotantes superiores -->
+  <div class="floating-controls" aria-label="Controles interactivos">
+    <button id="petals-toggle-btn" class="control-btn" title="Activar/Desactivar lluvia de pétalos" aria-label="Control de pétalos">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a5 5 0 0 1 5 5c0 3.5-5 9-5 9s-5-5.5-5-9a5 5 0 0 1 5-5z"></path>
+        <path d="M12 16v6"></path>
+      </svg>
+    </button>
+    <button id="music-toggle-btn" class="control-btn" title="Reproducir música romántica" aria-label="Control de música">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Audio de fondo opcional (si se agrega un archivo MP3) -->
+  <audio id="wedding-audio" loop preload="none">
+    <source src="assets/audio/wedding-melody.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ========================================================================
+       MODAL DE BIENVENIDA (EXPERIENCIA ABRIR INVITACIÓN)
+       ======================================================================== -->
+  <div id="welcome-overlay" class="welcome-overlay" role="dialog" aria-modal="true">
+    <div class="welcome-card">
+      <div class="welcome-seal">E&J</div>
+      <p class="welcome-subtitle">Nuestra Boda</p>
+      <h2 class="welcome-names">Edén & Julieta</h2>
+      <p class="welcome-date">16 de Enero de 2027</p>
+      <div class="ornament-divider">
+        <span class="line"></span>
+        <span class="symbol">❦</span>
+        <span class="line"></span>
+      </div>
+      <p style="font-size: 0.95rem; color: #5c554f; margin-bottom: 28px;">
+        Con inmensa alegría y gratitud en nuestros corazones, te invitamos a compartir el día más especial de nuestras vidas.
+      </p>
+      <button id="btn-open-invitation" class="welcome-btn">
+        <span>Abrir Invitación</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       HERO PRINCIPAL
+       ======================================================================== -->
+  <header class="hero-section" id="inicio">
+    <div class="hero-card">
+      <div class="hero-monogram">E <span style="font-size: 0.8em; color: var(--gold-light);">❦</span> J</div>
+      <p class="hero-announcement">¡Nos Casamos!</p>
+      <h1 class="hero-names">Edén <span class="amp">&</span> Julieta</h1>
+      <p class="hero-tagline">“Un nuevo comienzo para caminar juntos toda la vida”</p>
+
+      <!-- Retrato Principal de los Novios -->
+      <div class="hero-image-wrapper">
+        <div class="hero-frame-decor"></div>
+        <div class="hero-image-frame">
+          <img src="assets/images/IMG-20261014-WA0008.jpg" alt="Edén y Julieta - Foto de portada" loading="eager">
+        </div>
+      </div>
+
+      <!-- Insignia de Fecha y Lugar -->
+      <div class="hero-meta-badge">
+        <span class="hero-date-text">Sábado, 16 de Enero de 2027</span>
+        <span class="hero-location-text">Rodeo, Durango, México</span>
+      </div>
+
+      <div class="ornament-divider">
+        <span class="line"></span>
+        <span class="symbol">✦</span>
+        <span class="line"></span>
+      </div>
+      <p style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--text-muted); max-width: 540px; margin: 0 auto;">
+        Queremos que seas parte del momento en que prometemos amarnos y respetarnos para siempre.
+      </p>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       VERSÍCULO BÍBLICO Y DEDICATORIA
+       ======================================================================== -->
+  <section class="verse-section" id="mensaje">
+    <div class="container-sm">
+      <div class="verse-box">
+        <p class="verse-text">
+          “Uno solo puede ser vencido, pero dos pueden resistir. Y una cuerda triple no se rompe fácilmente.”
+        </p>
+        <span class="verse-author">— Eclesiastés 4:12</span>
+
+        <div class="parents-dedication">
+          <p>Con la bendición de Dios y el amor incondicional de nuestras familias:</p>
+          <div class="ornament-divider" style="margin: 12px auto;">
+            <span class="line"></span>
+            <span class="symbol">❦</span>
+            <span class="line"></span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-dark); font-weight: 500;">
+            Agradecemos a todos nuestros seres queridos que han sido parte de nuestro camino.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CUENTA REGRESIVA EN VIVO
+       ======================================================================== -->
+  <section class="countdown-section" id="cuenta-regresiva">
+    <div class="container">
+      <h2 class="section-title">Esperando el Gran Día</h2>
+      <p class="section-subtitle">16 de Enero de 2027 • Rodeo, Dgo.</p>
+
+      <div class="countdown-grid" id="countdown-timer">
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Días</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Horas</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Minutos</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Segundos</div>
+        </div>
+      </div>
+
+      <div class="calendar-actions">
+        <a id="btn-add-google" class="btn-calendar" href="#" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Guardar en Google Calendar</span>
+        </a>
+        <a id="btn-add-ics" class="btn-calendar" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Descargar Evento (.ICS)</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       GALERÍA DE FOTOS
+       ======================================================================== -->
+  <section class="gallery-section" id="galeria">
+    <div class="container">
+      <h2 class="section-title">Nuestra Historia</h2>
+      <p class="section-subtitle">Momentos que guardamos en el corazón</p>
+      <div class="ornament-divider">
+        <span class="line"></span>
+        <span class="symbol">❦</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="gallery-grid">
+        <!-- Foto 1 -->
+        <div class="gallery-card" tabindex="0" role="button" aria-label="Ver foto: El inicio de nuestra promesa">
+          <div class="gallery-image-box">
+            <img src="assets/images/IMG-20261013-WA0009.jpg" alt="Manos unidas y anillo de compromiso" loading="lazy">
+            <div class="gallery-zoom-badge" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+          </div>
+          <h3 class="gallery-caption">“El inicio de nuestra promesa”</h3>
+          <p class="gallery-subcaption">Nuestra Alianza de Amor</p>
+        </div>
+
+        <!-- Foto 2 -->
+        <div class="gallery-card" tabindex="0" role="button" aria-label="Ver foto: Juntos en cada paso">
+          <div class="gallery-image-box">
+            <img src="assets/images/IMG-20261014-WA0007.jpg" alt="Edén y Julieta sonriendo juntos" loading="lazy">
+            <div class="gallery-zoom-badge" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+          </div>
+          <h3 class="gallery-caption">“Juntos en cada paso”</h3>
+          <p class="gallery-subcaption">Edén & Julieta</p>
+        </div>
+
+        <!-- Foto 3 -->
+        <div class="gallery-card" tabindex="0" role="button" aria-label="Ver foto: Un amor para siempre">
+          <div class="gallery-image-box">
+            <img src="assets/images/IMG-20261014-WA0008.jpg" alt="Beso tierno en la frente de los novios" loading="lazy">
+            <div class="gallery-zoom-badge" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+          </div>
+          <h3 class="gallery-caption">“Un amor para siempre”</h3>
+          <p class="gallery-subcaption">Rumbo al Matrimonio</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       ITINERARIO DEL GRAN DÍA
+       ======================================================================== -->
+  <section class="itinerary-section" id="itinerario">
+    <div class="container">
+      <div style="text-align: center;">
+        <h2 class="section-title">Itinerario del Gran Día</h2>
+        <p class="section-subtitle">Horarios y Programa de Celebración</p>
+        <div class="ornament-divider">
+          <span class="line"></span>
+          <span class="symbol">❦</span>
+          <span class="line"></span>
+        </div>
+      </div>
+
+      <div class="timeline-container">
+        <!-- 13:00 - Discurso bíblico -->
+        <div class="timeline-item left">
+          <div class="timeline-node" title="Ceremonia">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">13:00 hrs</span>
+            <h3 class="timeline-activity">Discurso Bíblico</h3>
+            <p class="timeline-desc">El momento solemne donde consagramos nuestra unión bajo los principios divinos.</p>
+          </div>
+        </div>
+
+        <!-- 14:30 - Recepción -->
+        <div class="timeline-item right">
+          <div class="timeline-node" title="Recepción">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">14:30 hrs</span>
+            <h3 class="timeline-activity">Recepción</h3>
+            <p class="timeline-desc">Bienvenida y recepción de todos nuestros apreciados invitados en Quinta Ohana.</p>
+          </div>
+        </div>
+
+        <!-- 15:00 - Comida -->
+        <div class="timeline-item left">
+          <div class="timeline-node" title="Comida">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              <line x1="6" y1="1" x2="6" y2="4"></line>
+              <line x1="10" y1="1" x2="10" y2="4"></line>
+              <line x1="14" y1="1" x2="14" y2="4"></line>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">15:00 hrs</span>
+            <h3 class="timeline-activity">Comida</h3>
+            <p class="timeline-desc">Disfrutemos juntos de un delicioso banquete en honor a nuestra nueva etapa de vida.</p>
+          </div>
+        </div>
+
+        <!-- 17:00 - Sesión de fotos -->
+        <div class="timeline-item right">
+          <div class="timeline-node" title="Sesión de fotos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">17:00 hrs</span>
+            <h3 class="timeline-activity">Sesión de Fotos</h3>
+            <p class="timeline-desc">Inmortalizaremos hermosos recuerdos y fotografías familiares junto a ustedes.</p>
+          </div>
+        </div>
+
+        <!-- 18:00 - Vals -->
+        <div class="timeline-item left">
+          <div class="timeline-node" title="Vals">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">18:00 hrs</span>
+            <h3 class="timeline-activity">Vals</h3>
+            <p class="timeline-desc">Nuestro primer vals nupcial como esposos, rodeados de quienes más amamos.</p>
+          </div>
+        </div>
+
+        <!-- 18:30 - Baile -->
+        <div class="timeline-item right">
+          <div class="timeline-node" title="Baile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">18:30 hrs</span>
+            <h3 class="timeline-activity">Baile</h3>
+            <p class="timeline-desc">¡Se abre la pista de baile! Música, risas y celebración hasta que el cuerpo aguante.</p>
+          </div>
+        </div>
+
+        <!-- 20:30 - Pastel -->
+        <div class="timeline-item left">
+          <div class="timeline-node" title="Pastel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+              <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
+              <line x1="2" y1="21" x2="22" y2="21"></line>
+              <line x1="12" y1="7" x2="12" y2="11"></line>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">20:30 hrs</span>
+            <h3 class="timeline-activity">Pastel</h3>
+            <p class="timeline-desc">El tradicional corte del pastel de bodas y un brindis por la dicha y el porvenir.</p>
+          </div>
+        </div>
+
+        <!-- 23:00 - Fin del evento -->
+        <div class="timeline-item right">
+          <div class="timeline-node" title="Fin del evento">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="timeline-card">
+            <span class="timeline-time">23:00 hrs</span>
+            <h3 class="timeline-activity">Fin del Evento</h3>
+            <p class="timeline-desc">Cierre de una velada inolvidable. Gracias por haber hecho nuestro día tan mágico.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       UBICACIONES (LOCATIONS)
+       ======================================================================== -->
+  <section class="locations-section" id="ubicaciones">
+    <div class="container">
+      <h2 class="section-title">Ubicaciones</h2>
+      <p class="section-subtitle">¿Cómo llegar a cada celebración?</p>
+      <div class="ornament-divider">
+        <span class="line"></span>
+        <span class="symbol">❦</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="locations-grid">
+        <!-- Tarjeta 1: Discurso Bíblico -->
+        <div class="location-card">
+          <div>
+            <div class="location-icon-wrap">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+            <p class="location-type">Ceremonia Religiosa</p>
+            <h3 class="location-venue-name">Discurso Bíblico</h3>
+            <div class="location-time-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>13:00 hrs</span>
+            </div>
+            <p class="location-address">
+              C. Durango, 35760 Rodeo, Durango, México
+            </p>
+          </div>
+          <div class="location-actions">
+            <a href="https://maps.app.goo.gl/A14LRkqcan4XQsDm8?g_st=aw" target="_blank" rel="noopener noreferrer" class="btn-location-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Abrir en Google Maps</span>
+            </a>
+            <button class="btn-copy-address" data-address="C. Durango, 35760 Rodeo, Dgo.">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copiar Dirección</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Recepción y Fiesta (Quinta Ohana) -->
+        <div class="location-card">
+          <div>
+            <div class="location-icon-wrap">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <p class="location-type">Recepción & Fiesta</p>
+            <h3 class="location-venue-name">Quinta Ohana</h3>
+            <div class="location-time-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>14:30 hrs en adelante</span>
+            </div>
+            <p class="location-address">
+              C. Reforma Agraria 538, 35760 Rodeo, Durango, México
+            </p>
+          </div>
+          <div class="location-actions">
+            <a href="https://maps.app.goo.gl/4BWBRddJ8269Et8z6?g_st=aw" target="_blank" rel="noopener noreferrer" class="btn-location-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Abrir en Google Maps</span>
+            </a>
+            <button class="btn-copy-address" data-address="Quinta Ohana, C. Reforma Agraria 538, 35760 Rodeo, Dgo.">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copiar Dirección</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CÓDIGO DE VESTIMENTA (DRESS CODE)
+       ======================================================================== -->
+  <section class="dresscode-section" id="vestimenta">
+    <div class="container-sm">
+      <div class="dresscode-card">
+        <span class="dresscode-badge">Código de Vestimenta</span>
+        <h2 class="dresscode-title">Rigurosa Etiqueta: Formal</h2>
+        <p class="dresscode-desc">
+          Queremos que todos luzcan increíbles en este día tan memorable. Agradecemos su puntual apego al código de vestimenta.
+        </p>
+
+        <div class="dresscode-roles">
+          <div class="dresscode-role-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 2a3 3 0 0 0-3 3v2a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+              <path d="M7 10l-2 11h14l-2-11H7z"></path>
+              <path d="M9 10v4"></path>
+              <path d="M15 10v4"></path>
+            </svg>
+            <h3 class="dresscode-role-title">Damas</h3>
+            <p class="dresscode-role-detail">Vestido largo de noche o vestido de cóctel elegante.</p>
+          </div>
+          <div class="dresscode-role-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 3h12l-2 8H8L6 3z"></path>
+              <path d="M10 11l-2 10h8l-2-10"></path>
+              <path d="M12 3v8"></path>
+            </svg>
+            <h3 class="dresscode-role-title">Caballeros</h3>
+            <p class="dresscode-role-detail">Traje formal oscuro, camisa de vestir y corbata.</p>
+          </div>
+        </div>
+
+        <div class="dresscode-note">
+          🤍 <strong>Nota de cortesía:</strong> Nos reservamos con mucho cariño el color blanco exclusivamente para la novia.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       LLUVIA DE SOBRES / REGALOS
+       ======================================================================== -->
+  <section class="gifts-section" id="regalos">
+    <div class="container-sm">
+      <div class="gifts-card">
+        <div class="gifts-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="M22 7l-10 7L2 7"></path>
+          </svg>
+        </div>
+        <h2 class="gifts-title">Lluvia de Sobres</h2>
+        <p class="gifts-text">
+          El regalo más grande para nosotros es contar con tu presencia y bendición en nuestro enlace. Si deseas hacernos un presente, te agradeceremos una muestra de cariño en sobre el día del evento.
+        </p>
+        <span class="gifts-tag">✉️ Habrá un buzón especial en la recepción</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CONFIRMACIÓN DE ASISTENCIA (RSVP VÍA WHATSAPP)
+       ======================================================================== -->
+  <section class="rsvp-section" id="rsvp">
+    <div class="container">
+      <h2 class="section-title">Confirmación de Asistencia</h2>
+      <p class="section-subtitle">Por favor confirma tu presencia antes del 20 de Diciembre de 2026</p>
+      <div class="ornament-divider">
+        <span class="line"></span>
+        <span class="symbol">❦</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="rsvp-card">
+        <form id="wedding-rsvp-form">
+          <!-- Nombre del invitado -->
+          <div class="form-group">
+            <label for="rsvp-name" class="form-label">Nombre Completo *</label>
+            <input type="text" id="rsvp-name" class="form-input" placeholder="Ej. Familia Rodríguez o tu nombre completo" required>
+          </div>
+
+          <!-- Asistencia -->
+          <div class="form-group">
+            <label class="form-label">¿Nos acompañarás en nuestro gran día? *</label>
+            <div class="attendance-options">
+              <label class="attendance-label selected">
+                <input type="radio" name="attendance" value="si" checked>
+                <span>¡Sí, asistiré con alegría! 🎉</span>
+              </label>
+              <label class="attendance-label">
+                <input type="radio" name="attendance" value="no">
+                <span>No podré asistir 🤍</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Número de personas -->
+          <div class="form-group">
+            <label for="rsvp-passes" class="form-label">Número de Pases Confirmados</label>
+            <select id="rsvp-passes" class="form-select">
+              <option value="1">1 Persona</option>
+              <option value="2" selected>2 Personas</option>
+              <option value="3">3 Personas</option>
+              <option value="4">4 Personas</option>
+              <option value="5">5 Personas</option>
+            </select>
+          </div>
+
+          <!-- Mensaje especial -->
+          <div class="form-group">
+            <label for="rsvp-message" class="form-label">Dedicatoria o Mensaje para los Novios</label>
+            <textarea id="rsvp-message" class="form-textarea" placeholder="Escribe un mensaje o felicitación para Edén y Julieta..."></textarea>
+          </div>
+
+          <!-- Teléfono opcional de los novios (predefinido) -->
+          <input type="hidden" id="rsvp-phone" value="">
+
+          <!-- Vista previa en vivo del mensaje de WhatsApp -->
+          <div class="message-preview-box">
+            <div class="message-preview-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>Vista previa del mensaje a enviar</span>
+            </div>
+            <div id="rsvp-preview-text" class="message-preview-text"></div>
+          </div>
+
+          <!-- Botón de Envío -->
+          <button type="submit" class="btn-whatsapp-submit">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.942.553 3.753 1.507 5.289L2 22l4.821-1.464c1.479.88 3.197 1.495 5.21 1.495 5.536 0 10.031-4.495 10.031-10.031S17.567 2 12.031 2zm5.792 14.364c-.243.682-1.411 1.306-1.954 1.378-.517.069-1.184.103-3.393-.811-2.825-1.168-4.63-4.053-4.77-4.24-.139-.187-1.139-1.516-1.139-2.89 0-1.374.721-2.051.977-2.327.256-.276.56-.345.747-.345.187 0 .373.003.535.011.173.008.406-.066.634.482.234.56.797 1.949.867 2.091.07.142.117.308.023.494-.093.187-.14.303-.279.467-.14.164-.294.367-.42.493-.14.14-.287.292-.124.571.163.28.723 1.192 1.551 1.93 1.066.95 1.966 1.246 2.245 1.386.28.14.443.117.606-.07.163-.187.699-.817.886-1.097.186-.28.373-.233.63-.14.256.093 1.63.769 1.91.909.28.14.466.21.536.326.07.117.07.676-.173 1.358z"/>
+            </svg>
+            <span>Confirmar por WhatsApp</span>
+          </button>
+          <p class="rsvp-note-bottom">Al presionar el botón se abrirá WhatsApp con los datos listos para enviar.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PIE DE PÁGINA (FOOTER)
+       ======================================================================== -->
+  <footer class="footer-section">
+    <div class="container">
+      <div class="hero-monogram" style="color: var(--gold-light);">E & J</div>
+      <h2 class="footer-names">Edén & Julieta</h2>
+      <p class="footer-date">16 de Enero de 2027 • Rodeo, Durango</p>
+      <div class="ornament-divider" style="margin-bottom: 24px;">
+        <span class="line" style="background: rgba(223, 186, 115, 0.3);"></span>
+        <span class="symbol" style="color: var(--gold-light);">❦</span>
+        <span class="line" style="background: rgba(223, 186, 115, 0.3);"></span>
+      </div>
+      <p class="footer-thanks">
+        “Gracias por ser parte fundamental de nuestra historia y acompañarnos en el día más feliz de nuestras vidas.”
+      </p>
+      <div class="footer-copyright">
+        Invitación Digital de Bodas © 2027 Edén & Julieta • Con todo nuestro amor
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODAL LIGHTBOX PARA FOTOS
+       ======================================================================== -->
+  <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visualizador de fotos">
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="lightbox-close-btn" title="Cerrar foto" aria-label="Cerrar">&times;</button>
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Foto ampliada">
+      <p id="lightbox-caption" class="lightbox-caption-text"></p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
